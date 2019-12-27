@@ -1,23 +1,39 @@
 <template>
-  <div>
-    <ul>
-      <li v-for='(item, index) in movies' :key='index'>
-        <h5>{{item.title}}</h5>
-        <p>{{item.popularity}}</p>
-        <router-link :to="{ name: 'Movie', params: { id: item.id } }">Movie</router-link>
-      </li>
-    </ul>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col cols="3" v-for="(item, index) in movies" :key="index">
+        <v-card>
+          <v-card-title class="d-flex justify-center">
+            <h4>{{item.original_title}}</h4>
+          </v-card-title>
+          <v-card-subtitle>{{item.release_date}}</v-card-subtitle>
+          <v-img :src="`https://image.tmdb.org/t/p/w500${item.backdrop_path}`"></v-img>
+          <v-card-text>{{item.overview}}</v-card-text>
+          <v-btn class="mb-4" color="error">
+            <router-link
+              :to="{ name: 'Movie', params: { id: item.id } }"
+              class="color-white"
+            >Read more</router-link>
+          </v-btn>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
   mounted() {
-    this.$store.dispatch('loadMovies')
+    this.$store.dispatch("loadMovies");
   },
-  computed: mapState([
-    'movies'
-  ])
-}
+  computed: mapState(["movies"])
+};
 </script>
+
+<style>
+.color-white {
+  color: #fff !important;
+  text-decoration: none;
+}
+</style>

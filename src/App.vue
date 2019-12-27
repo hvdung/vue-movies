@@ -1,17 +1,22 @@
 <template>
-  <div id="app">
-    <div>
-      <router-link :to="{ name: 'Hello' }">Home</router-link>
-      <router-link to="/about">About</router-link>
-      <router-link :to="{ name: 'Movies' }">Movies</router-link>
-      
-    </div>
+  <v-app id="app">
+    
+    <v-toolbar>
+      <v-toolbar-title>Title</v-toolbar-title>
+  
+      <v-spacer></v-spacer>
+
+      <v-toolbar-items>
+        <v-btn text><router-link :to="{ name: 'Hello' }">Home</router-link></v-btn>
+        <v-btn text><router-link to="/about">About</router-link></v-btn>
+        <v-btn text><router-link :to="{ name: 'Movies' }">Movies</router-link></v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
     <router-view />
-  </div>
+  </v-app>
 </template>
 
 <script>
-
 export default {
   name: 'app',
 }

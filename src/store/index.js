@@ -13,7 +13,7 @@ export default new Vuex.Store({
   },
   actions: {
     loadMovies({commit}){
-      axios.get('https://api.themoviedb.org/3/discover/movie?api_key=84c9b0b369a176b1392957705f84124b&language=en-US&sort_by=popularity.desc')
+      axios.get('https://api.themoviedb.org/3/discover/movie?api_key=84c9b0b369a176b1392957705f84124b&language=en-US&sort_by=popularity.desc&page=1')
       .then(response => {
         commit('SET_MOVIES', response.data.results)
       })
