@@ -1,7 +1,14 @@
 <template>
   <v-container>
+    <v-pagination
+      class="pagination"
+      v-model="currentPage"
+      :length="totalPages"
+      :total-visible="7"
+      @input="loadMoviesData"
+    ></v-pagination>
     <v-row>
-      <v-col cols="3" v-for="(item, index) in movies" :key="index">
+      <v-col md="3" v-for="(item, index) in movies" :key="index">
         <v-card>
           <v-card-title class="d-flex justify-center">
             <h4>{{item.original_title}}</h4>
@@ -18,16 +25,47 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-pagination
+      v-model="currentPage"
+      :length="totalPages"
+      :total-visible="7"
+      @input="loadMoviesData"
+    ></v-pagination>
   </v-container>
 </template>
 
 <script>
+/* eslint-disable no-debugger */
 import { mapState } from "vuex";
+
 export default {
-  mounted() {
-    this.$store.dispatch("loadMovies");
+  created() {
+    this.$store.dispatch("loadMovies", this.$router.currentRoute.query.page);
   },
-  computed: mapState(["movies"])
+  computed: {
+    ...mapState({
+      movies: state => state.movies,
+      totalPages: state => state.totalPages,
+      totalResults: state => state.totalResults
+    }),
+    currentPage: {
+      get() {
+        return this.$store.state.currentPage;
+      },
+      set(val) {
+        this.$store.commit("SET_CURRENT_PAGE", val);
+      }
+    }
+  },
+  methods: {
+    loadMoviesData: function() {
+      this.$router.push({
+        name: "Movies query",
+        params: { page: this.$store.state.currentPage }
+      });
+      this.$store.dispatch("loadMovies", this.$store.state.currentPage);
+    }
+  }
 };
 </script>
 
