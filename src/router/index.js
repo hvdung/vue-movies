@@ -27,7 +27,12 @@ export default new VueRouter({
     },
     {
       path: '/movies?page=:page',
-      name: 'Movies query',
+      name: 'Movies page',
+      component: Movies
+    },
+    {
+      path: '/movies?s=:search&page=:page',
+      name: 'Movies search',
       component: Movies
     },
     {

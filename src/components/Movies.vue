@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <FormSearch></FormSearch>
     <v-pagination
       class="pagination"
       v-model="currentPage"
@@ -14,7 +15,9 @@
             <h4>{{item.original_title}}</h4>
           </v-card-title>
           <v-card-subtitle>{{item.release_date}}</v-card-subtitle>
-          <v-img :src="`https://image.tmdb.org/t/p/w500${item.backdrop_path}`"></v-img>
+          <v-img
+            :src="item.backdrop_path ? `https://image.tmdb.org/t/p/w500${item.backdrop_path}` : `http://placehold.jp/500x281.png`"
+          ></v-img>
           <v-card-text>{{item.overview}}</v-card-text>
           <v-btn class="mb-4" color="error">
             <router-link
@@ -37,8 +40,12 @@
 <script>
 /* eslint-disable no-debugger */
 import { mapState } from "vuex";
+import FormSearch from "./FormSearch.vue";
 
 export default {
+  components: {
+    FormSearch
+  },
   created() {
     this.$store.dispatch("loadMovies", this.$router.currentRoute.query.page);
   },
@@ -60,7 +67,7 @@ export default {
   methods: {
     loadMoviesData: function() {
       this.$router.push({
-        name: "Movies query",
+        name: "Movies page",
         params: { page: this.$store.state.currentPage }
       });
       this.$store.dispatch("loadMovies", this.$store.state.currentPage);

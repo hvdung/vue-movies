@@ -13,7 +13,8 @@ export default new Vuex.Store({
     movies_detail: {},
     currentPage: 1,
     totalPages: 0,
-    totalResults: 0
+    totalResults: 0,
+    searchText: ""
   },
   actions: {
     loadMovies({ commit }, page) {
@@ -26,6 +27,12 @@ export default new Vuex.Store({
       axios.get('https://api.themoviedb.org/3/movie/' + movie_id + '?api_key=84c9b0b369a176b1392957705f84124b')
         .then(response => {
           commit('SET_MOVIES_DETAIL', response.data)
+        })
+    },
+    loadMoviesResults({ commit }, payload) {
+      axios.get('https://api.themoviedb.org/3/search/movie?api_key=84c9b0b369a176b1392957705f84124b&language=en-US&query=' + payload.text + '&page=' + payload.page)
+        .then(response => {
+          commit('SET_MOVIES', response.data)
         })
     }
   },
